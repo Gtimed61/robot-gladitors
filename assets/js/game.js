@@ -4,20 +4,27 @@ var playerHealth = 100;
 
 var playerAttack = 10;
 
+var playerMoney = 10;
 
-console.log(playerName, playerAttack, playerHealth);
-
-
-var enemyName = "Roborto";
+var enemyNames = ["Roberto" , "Amy Android" , "Robo Trumble"];
 
 var enemyHealth = 50;
 
 var enemyAttack = 12;
 
-var playerMoney = 10;
 
+/*console.log(playerName, playerAttack, playerHealth);
 
-var fight = function() {
+console.log(enemyNames);
+
+for(var i = 0; i < enemyNames.length; i++) {
+    console.log(enemyNames[i]);
+    console.log(i);
+    console.log(enemyNames[i] + " is at " + i + " index");
+  }
+*/
+
+var fight = function(enemyName) {
     //Alerts players that they are starting the roud
     window.alert("Welcome to Robot Gladitors!");
     var promptFight = window.prompt("Would yopu like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
@@ -56,7 +63,7 @@ var fight = function() {
     var confirmSkip = window.confirm("Are you sure you'd like to quit?");
     } 
     
-    if (confirmSKip) {
+    if (confirmSkip) {
         window.alert(playerName + " has decided to skip this fight. Goodbye!")
         playerMoney = playerMoney - 2;
     }
@@ -66,5 +73,7 @@ var fight = function() {
 
 }
 
-fight();
+for(var i = 0; i < enemyNames.length; i++) {
+    fight(enemyNames[i]);
+}
 
