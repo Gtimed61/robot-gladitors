@@ -1,3 +1,5 @@
+window.prompt("What is your robot's name?");
+
 var playerName = window.prompt("What is your robot's name?");
 
 var playerHealth = 100;
@@ -13,7 +15,7 @@ var enemyHealth = 50;
 var enemyAttack = 12;
 
 
-/*console.log(playerName, playerAttack, playerHealth);
+console.log(playerName, playerAttack, playerHealth);
 
 console.log(enemyNames);
 
@@ -21,15 +23,15 @@ for(var i = 0; i < enemyNames.length; i++) {
     console.log(enemyNames[i]);
     console.log(i);
     console.log(enemyNames[i] + " is at " + i + " index");
-  }
-*/
+}
 
 var fight = function(enemyName) {
     //Alerts players that they are starting the roud
     window.alert("Welcome to Robot Gladitors!");
     var promptFight = window.prompt("Would yopu like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+    console.log(promptFight);
     if (promptFight === "fight" || promptFight === "FIGHT") {
-     //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
+    //Subtract the value of `playerAttack` from the value of `enemyHealth` and use that result to update the value in the `enemyHealth` variable
     enemyHealth = enemyHealth - playerAttack;
     //Log a resulting message to the console so we know that it worked.
     console.log(
@@ -51,7 +53,7 @@ var fight = function(enemyName) {
         enemyName + " attacked " + playerName + " . " + playerName + " now has " + playerHealth + " health remaining. "
     );   
 
-    if (playerName <= 0) {
+    if (playerHealth <= 0) {
     window.alert(playerName + " has died! ");
     }
 
