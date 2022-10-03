@@ -1,5 +1,18 @@
+//function to set name
+var getPlayerName = function {
+  var name ="";
+
+while (name === "" || name === null) {
+  name = prompt("What is your robot's name?");
+}
+
+console.log("Your robot's name is " + name);
+return name;
+};
+
+
 var playerInfo = {
-  name: window.prompt("What is your robot's name?"),
+  name: getPlayerName(),
   health: 100,
   attack: 10,
   money: 10,
@@ -41,7 +54,7 @@ var enemyInfo = [
 ];
 
 // fight function (now with parameter for enemy's name)
-  var fight = function(enemy) {
+  var fight = function(enemy) { 
     while (playerInfo.health > 0 && enemy.health > 0) {
     // ask player if they'd like to fight or run
   var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
@@ -175,7 +188,7 @@ var shop = function() {
     //ask palyer what they would like to do
     var shopOptionPrompt = window.prompt(
         "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Plese enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a chioce."
-    );
+        );
 };
 
 //function to generate a random numeric value
