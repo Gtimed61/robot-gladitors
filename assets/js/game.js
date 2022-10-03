@@ -1,5 +1,5 @@
 //function to set name
-var getPlayerName = function {
+var getPlayerName = function() {
   var name ="";
 
 while (name === "" || name === null) {
@@ -53,26 +53,45 @@ var enemyInfo = [
   }
 ];
 
-// fight function (now with parameter for enemy's name)
-  var fight = function(enemy) { 
-    while (playerInfo.health > 0 && enemy.health > 0) {
-    // ask player if they'd like to fight or run
+var fightOrSkip = function() {
+  //ask player if they'd like to fight or skip using fightOrSkip function
   var promptFight = window.prompt('Would you like to FIGHT or SKIP this battle? Enter "FIGHT" or "SKIP" to choose.');
 
-    // if player picks "skip" confirm and then stop the loop.
-    if (promptFight === "skip" || promptFight === "SKIP") {
-      // confirm player wants to skip
-      var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+ // Conditional Recursive Function Call
+if (promptFight === "" || promptFight === null) {
+  window.alert("You need to provide a valid answer! Please try again.");
+  return fightOrSkip();
+}
 
-      // if yes (true), leave fight
-      if (confirmSkip) {
-        window.alert(playerInfo.name + ' has decided to skip this fight. Goodbye!');
-        // subtract money from playerMoney for skipping
-        playerInfo.money = Math.max(0, playerMoney - 10);
-        console.log("playerMoney", playerMoney);
-        break;
-      }
+  // if player picks "skip" confirm and then stop the loop
+  if (promptFight === "skip" || promptFight === "SKIP") {
+    // confirm player wants to skip
+    var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+
+    // if yes (true), leave fight
+    if (confirmSkip) {
+      window.alert(playerInfo.name + " has decided to skip this fight. Goodbye!");
+      // subtract money from playerMoney for skipping
+      playerInfo.playerMoney = playerInfo.money - 10;
+      shop();
     }
+  }
+}
+
+
+// fight function (now with parameter for enemy's name)
+  var fight = function(enemy) {
+     // keep track of who goes first
+  var isPlayerTurn = true;
+  if (Math.random() > 0.5) {
+    isPlayerTurn = false;
+  }   
+    while (playerInfo.health > 0 && enemy.health > 0) {
+    // repeat and execute as long as the enemy-robot is alive 
+    while (playerInfo.health > 0 && enemy.health > 0) {
+    fightOrSkip(); // <-- Replace code with this function call
+  var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+    };
 
     // remove enemy's health by subtracting the amount set in the playerAttack variable
   var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
@@ -124,7 +143,7 @@ var enemyInfo = [
     if (playerInfo.health > 0) {
     // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
     window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
-    };
+    }
 
     // pick new enemy to fight based on the index of the enemyNames array
     var pickedEnemyObj = enemyInfo[i];
@@ -164,64 +183,61 @@ var enemyInfo = [
 
 // function to end the entire game
 var endGame = function() {
-     // if player is still alive, player wins!
-  if (playerInfo.health > 0) {
-    window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + ".");
+  window.alert("The game has now ended. Let's see how you did!");
+
+  // check localStorage for high score, if it's not there, use 0
+  var highScore = localStorage.getItem("highscore");
+  if (highScore === null) {
+    highScore = 0;
+  }
+  // if player has more money than the high score, player has new high score!
+  if (playerInfo.money > highScore) {
+    localStorage.setItem("highscore", playerInfo.money);
+    localStorage.setItem("name", playerInfo.name);
+
+    alert(playerInfo.name + " now has the high score of " + playerInfo.money + "!");
   } 
   else {
-    window.alert("You've lost your robot in battle.");
+    alert(playerInfo.name + " did not beat the high score of " + highScore + ". Maybe next time!");
   }
- 
-// ask player if they'd like to play again
-var playAgainConfirm = window.confirm("Would you like to play again?");
 
-    if (playAgainConfirm) {
-        // restart the game
-        startGame();
-    } 
-    else {
-        window.alert("Thank you for playing Robot Gladiators! Come back soon!");
-    }
+  // ask player if they'd like to play again
+  var playAgainConfirm = window.confirm("Would you like to play again?");
+
+  if (playAgainConfirm) {
+    startGame();
+  } 
+  else {
+    window.alert("Thank you for playing Robot Gladiators! Come back soon!");
+  }
 };
 
 var shop = function() {
     //ask palyer what they would like to do
-    var shopOptionPrompt = window.prompt(
-        "Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Plese enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a chioce."
-        );
-};
+var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Plese enter one for REFIILL, 2 for UPGRADE', or 3 for LEAVE.");
 
 //function to generate a random numeric value
-
+shopOptionPrompt = parseInt(shopOptionPrompt);
 // use switch to carry out action
 switch (shopOptionPrompt) {
-    case "REFILL":
-    case "refill":
-      playerInfo.refillHealth();
-      break;
-
-    case "UPGRADE":
-    case "upgrade":
-      playerInfo.upgradeAttack();
-      break;
-    
-        case "LEAVE":
-        case "leave":
-        window.alert("Leaving the store.");
-  
-        // do nothing, so function will end
+  case 1:
+    playerInfo.refillHealth();
     break;
-        
-        default:
-        window.alert("You did not pick a valid option. Try again.");
-  
-        // call shop() again to force player to pick a valid option
-        shop();
-    
+  case 2:
+    playerInfo.upgradeAttack();
     break;
-  };
+  case 3:
+    window.alert("Leaving the store.");
+    break;
+  default:
+    window.alert("You did not pick a valid option. Try again.");
+    shop();
+    break;
+};
 
 
 //start game when page loads
 
 startGame();
+
+shopOptionPrompt();
