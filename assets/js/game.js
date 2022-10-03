@@ -1,5 +1,3 @@
-window.prompt("What is your robot's name?");
-
 var playerInfo = {
   name: window.prompt("What is your robot's name?"),
   health: 100,
@@ -10,6 +8,14 @@ var playerInfo = {
     this.health = 100;
     this.money = 10;
     this.attack = 10;
+  }, // comma!
+  refillHealth: function() {
+    this.health += 20;
+    this.money -= 7;
+  }, // comma!
+  upgradeAttack: function() {
+    this.attack += 6;
+    this.money -= 7;
   }
 };
 
@@ -17,7 +23,7 @@ var randomNumber = function(min,max) {
   var value = Math.floor(Math.random() * (max - min +1) + min);
 
   return value;
-}
+};
 
 var enemyInfo = [
   {
@@ -33,11 +39,6 @@ var enemyInfo = [
     attack: randomNumber(10,14)
   }
 ];
-
-console.log(enemyNames);
-console.log(enemyNames.length);
-console.log(enemyNames[0]);
-console.log(enemyNames[3]);
 
 // fight function (now with parameter for enemy's name)
   var fight = function(enemy) {
@@ -70,7 +71,7 @@ console.log(enemyNames[3]);
     );
 
     // check enemy's health
-    if (enemyy.health <= 0) {
+    if (enemy.health <= 0) {
       window.alert(enemy.name + ' has died!');
 
       // award player money for winning
@@ -110,6 +111,7 @@ console.log(enemyNames[3]);
     if (playerInfo.health > 0) {
     // let player know what round they are in, remember that arrays start at 0 so it needs to have 1 added to it
     window.alert('Welcome to Robot Gladiators! Round ' + (i + 1));
+    };
 
     // pick new enemy to fight based on the index of the enemyNames array
     var pickedEnemyObj = enemyInfo[i];
@@ -139,6 +141,7 @@ console.log(enemyNames[3]);
     break;
     }
 };
+    };
     //play again
     startGame();
 
@@ -181,34 +184,13 @@ var shop = function() {
 switch (shopOptionPrompt) {
     case "REFILL":
     case "refill":
-    if (playerInfo.money >= 7) {
-        window.alert("Refilling player's health by 20 for 7 dollars.");
-  
-        // increase health and decrease money
-        playerInfo.health = playerInfo.health + 20;
-        playerInfo.money = playerInfo.money - 7;
-    }
+      playerInfo.refillHealth();
+      break;
 
-    else {
-        window.alert("You don't have enough money!");
-    }
-
-        break;
-
-        case "UPGRADE":
-        case "upgrade":
-        if (playerInfo.money >=7) {
-        window.alert("Upgrading player's attack by 6 for 7 dollars.");
-
-        // increase attack and decrease money
-        playerInfo.attack = playerInfo.attack + 6;
-        playerInfo.money = playerInfo.money - 7;
-        }
-        else{
-            window.alert("You don't have enough money!");
-        }
-
-    break;
+    case "UPGRADE":
+    case "upgrade":
+      playerInfo.upgradeAttack();
+      break;
     
         case "LEAVE":
         case "leave":
@@ -226,8 +208,7 @@ switch (shopOptionPrompt) {
     break;
   };
 
+
 //start game when page loads
 
 startGame();
-  }
-};
